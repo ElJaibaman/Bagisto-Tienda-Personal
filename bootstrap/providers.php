@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\AppServiceProvider;
+use App\Providers\ExamenServiceProvider;
 use Webkul\Admin\Providers\AdminServiceProvider;
 use Webkul\Attribute\Providers\AttributeServiceProvider;
 use Webkul\BookingProduct\Providers\BookingProductServiceProvider;
@@ -41,6 +42,7 @@ return [
      * Application service providers.
      */
     AppServiceProvider::class,
+    ExamenServiceProvider::class,
 
     /**
      * Webkul's service providers.
