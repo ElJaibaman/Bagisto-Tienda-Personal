@@ -24,7 +24,7 @@ Todas las llaves se configuran en el `.env` (bloque "EXAMEN"). Después de edita
 |---|-----------|--------|
 | 1 | WhatsApp Business | `app/Services/WhatsAppService.php`, `app/Listeners/OrderPlacedListener.php` |
 | 2 | Cupones automáticos | `app/Services/AutoCouponService.php`, `app/Mail/AutoCouponMail.php`, migración `customer_auto_coupons` |
-| 3 | Chat Tawk.to | `resources/views/examen/tawk.blade.php` (se inyecta con el hook `bagisto.shop.layout.body.after`) |
+| 3 | Chat Tawk.to | `resources/examen-views/tawk.blade.php` (se inyecta con el hook `bagisto.shop.layout.body.after`) |
 | 4 | PayPal Sandbox | PayPal Smart Button nativo de Bagisto, activado por `examen:setup` |
 | 5 | Correo de registro | Correos nativos de Bagisto (cliente y administrador), activados por `examen:setup` |
 

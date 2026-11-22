@@ -16,7 +16,7 @@ class ExamenServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadViewsFrom(resource_path('views/examen'), 'examen');
+        $this->loadViewsFrom(resource_path('examen-views'), 'examen');
 
         if ($this->app->runningInConsole()) {
             $this->commands([ExamenSetup::class]);
