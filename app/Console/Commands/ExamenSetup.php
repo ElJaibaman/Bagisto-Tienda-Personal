@@ -20,7 +20,7 @@ class ExamenSetup extends Command
 
         if ($this->option('seed')) {
             $this->call('db:seed', ['--class' => 'Database\\Seeders\\CafeStoreSeeder', '--force' => true]);
-            $this->call('indexer:index', ['--mode' => 'full']);
+            $this->call('indexer:index', ['--mode' => ['full']]);
         }
 
         $this->call('cache:clear');
@@ -77,14 +77,23 @@ class ExamenSetup extends Command
 
     protected function configureCurrency(): void
     {
-        $hnl = DB::table('currencies')->where('code', 'HNL')->first();
         $base = DB::table('currencies')->where('code', config('app.currency', 'USD'))->first();
 
-        if (! $hnl) {
-            $this->warn('La moneda HNL no existe en la tabla currencies; se omite el tipo de cambio.');
+        // Si la instalacion no incluyo HNL como moneda permitida, se crea aqui.
+        if (! DB::table('currencies')->where('code', 'HNL')->exists()) {
+            DB::table('currencies')->insert([
+                'code' => 'HNL',
+                'name' => 'Lempira hondureño',
+                'symbol' => 'L',
+                'decimal' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-            return;
+            $this->info('Moneda HNL creada.');
         }
+
+        $hnl = DB::table('currencies')->where('code', 'HNL')->first();
 
         $channel = DB::table('channels')->first();
 
