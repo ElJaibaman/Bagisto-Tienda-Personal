@@ -34,7 +34,7 @@ class ExamenSetup extends Command
         $paypal = config('examen.paypal');
 
         if (! $paypal['client_id'] || ! $paypal['client_secret']) {
-            $this->warn('PayPal: faltan PAYPAL_SANDBOX_CLIENT_ID / PAYPAL_SANDBOX_CLIENT_SECRET en el .env. Se activa igual, pero sin credenciales no cobra.');
+            $this->warn('PayPal: no hay PAYPAL_SANDBOX_CLIENT_ID / PAYPAL_SANDBOX_CLIENT_SECRET en el .env; se conservan las credenciales guardadas en el admin.');
         }
 
         $prefix = 'sales.payment_methods.paypal_smart_button.';
@@ -43,8 +43,12 @@ class ExamenSetup extends Command
         $this->setConfig($prefix.'sandbox', '1');
         $this->setConfig($prefix.'title', 'PayPal');
         $this->setConfig($prefix.'description', 'Paga con tu cuenta PayPal o tarjeta (Sandbox).');
-        $this->setConfig($prefix.'client_id', (string) $paypal['client_id']);
-        $this->setConfig($prefix.'client_secret', (string) $paypal['client_secret']);
+        // Las credenciales solo se escriben si estan en el .env; asi no se borran las que ya
+        // se guardaron desde el admin (Configuracion > Ventas > Metodos de pago).
+        if ($paypal['client_id'] && $paypal['client_secret']) {
+            $this->setConfig($prefix.'client_id', (string) $paypal['client_id']);
+            $this->setConfig($prefix.'client_secret', (string) $paypal['client_secret']);
+        }
         $this->setConfig($prefix.'accepted_currencies', $paypal['accepted_currencies']);
         $this->setConfig($prefix.'sort', '1');
 
